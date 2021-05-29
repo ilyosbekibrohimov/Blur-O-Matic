@@ -1,5 +1,4 @@
 package com.example.background.workers
-
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.icu.text.SimpleDateFormat
@@ -27,9 +26,12 @@ class SaveImageToFileWorker(ctx: Context, params: WorkerParameters):Worker(ctx, 
         val resolver = applicationContext.contentResolver
         return try {
             val resourceUri = inputData.getString(KEY_IMAGE_URI)
+            Timber.e(resourceUri)
             val bitmap = BitmapFactory.decodeStream(resolver.openInputStream(Uri.parse(resourceUri)))
             val imageUrl = MediaStore.Images.Media.insertImage(resolver, bitmap, title, dateFormatter.format(Date()))
+
             if (!imageUrl.isNullOrEmpty()) {
+                Timber.e(imageUrl)
                 val output = workDataOf(KEY_IMAGE_URI to imageUrl)
                 Result.success(output)
             } else {

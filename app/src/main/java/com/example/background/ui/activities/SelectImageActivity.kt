@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.background
+package com.example.background.ui.activities
 
 import android.Manifest
 import android.app.Activity
@@ -27,11 +27,14 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
+import com.example.background.KEY_IMAGE_URI
+import com.example.background.R
 import com.example.background.databinding.ActivitySelectBinding
 import java.util.Arrays
 import timber.log.Timber
 
-class SelectImageActivity : AppCompatActivity() {
+class
+SelectImageActivity : AppCompatActivity() {
 
     private val REQUEST_CODE_IMAGE = 100
     private val REQUEST_CODE_PERMISSIONS = 101
@@ -93,7 +96,7 @@ class SelectImageActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                         this,
-                        R.string.set_permissions_in_settings,
+                    R.string.set_permissions_in_settings,
                         Toast.LENGTH_LONG
                 ).show()
                 binding.selectImage.isEnabled = false

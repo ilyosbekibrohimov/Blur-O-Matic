@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
-package com.example.background
+package com.example.background.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.work.WorkInfo
 import com.bumptech.glide.Glide
+import com.example.background.KEY_IMAGE_URI
+import com.example.background.R
 import com.example.background.databinding.ActivityBlurBinding
+import com.example.background.viewmodel.BlurViewModel
 
 class BlurActivity : AppCompatActivity() {
 
@@ -43,8 +50,53 @@ class BlurActivity : AppCompatActivity() {
             Glide.with(this).load(imageUri).into(binding.imageView)
         }
 
-        binding.goButton.setOnClickListener { viewModel.applyBlur(blurLevel) }
+        viewModel.outputWorkInfos.observe(this, workInfoObserver())
+
+
+
+
+        binding.cancelButton.setOnClickListener {
+            binding.cancelButton.visibility = View.GONE
+            binding.goButton.visibility = View.VISIBLE
+            viewModel.cancelWork()
+        }
+
+        binding.goButton.setOnClickListener {
+            binding.cancelButton.visibility = View.VISIBLE
+            binding.goButton.visibility = View.GONE
+            viewModel.applyBlur(blurLevel)
+        }
+        binding.seeFileButton.setOnClickListener {
+            viewModel.outputUri?.let { currentUri ->
+                val actionView = Intent(Intent.ACTION_VIEW, currentUri)
+                actionView.resolveActivity(packageManager)?.run {
+                    startActivity(actionView)
+                }
+            }
+        }
+
+
     }
+
+
+    private fun workInfoObserver(): Observer<List<WorkInfo>> {
+        return Observer { it ->
+            if (it.isNullOrEmpty()) {
+                return@Observer
+            }
+
+            val workInfo = it[0]
+
+           Toast.makeText(this, workInfo.state.toString(),  Toast.LENGTH_SHORT).show()
+            if (workInfo.state.isFinished) {
+                showWorkFinished()
+            } else {
+                showWorkInProgress()
+            }
+
+        }
+    }
+
 
     /**
      * Shows and hides views for when the Activity is processing an image

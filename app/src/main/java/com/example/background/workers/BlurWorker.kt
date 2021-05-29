@@ -12,12 +12,15 @@ import timber.log.Timber
 import java.lang.IllegalArgumentException
 
 
-class BlueWorker(context: Context, param: WorkerParameters) : Worker(context, param) {
+class BlurWorker(context: Context, param: WorkerParameters) : Worker(context, param) {
     override fun doWork(): Result {
 
         val uri  = inputData.getString(KEY_IMAGE_URI)
 
         makeStatusNotification("Blurring image", applicationContext)
+
+        //delays  the process for 3 secs
+        sleep()
 
 
         return try {
@@ -40,11 +43,6 @@ class BlueWorker(context: Context, param: WorkerParameters) : Worker(context, pa
             Timber.e(throwable)
             Result.failure()
         }
-
-
-
-
-
 
     }
 }
