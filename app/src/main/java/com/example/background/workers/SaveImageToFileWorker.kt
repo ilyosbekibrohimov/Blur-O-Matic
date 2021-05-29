@@ -15,7 +15,7 @@ import timber.log.Timber
 import java.util.*
 
 class SaveImageToFileWorker(ctx: Context, params: WorkerParameters):Worker(ctx, params){
-    private  val Title = "Blured Image";
+    private  val title = "Blured Image";
     @RequiresApi(Build.VERSION_CODES.N)
     private val  dateFormatter = SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss z",  Locale.getDefault())
 
@@ -28,10 +28,9 @@ class SaveImageToFileWorker(ctx: Context, params: WorkerParameters):Worker(ctx, 
         return try {
             val resourceUri = inputData.getString(KEY_IMAGE_URI)
             val bitmap = BitmapFactory.decodeStream(resolver.openInputStream(Uri.parse(resourceUri)))
-            val imageUrl = MediaStore.Images.Media.insertImage(resolver, bitmap, Title, dateFormatter.format(Date()))
+            val imageUrl = MediaStore.Images.Media.insertImage(resolver, bitmap, title, dateFormatter.format(Date()))
             if (!imageUrl.isNullOrEmpty()) {
                 val output = workDataOf(KEY_IMAGE_URI to imageUrl)
-
                 Result.success(output)
             } else {
                 Timber.e("Writing to MediaStore failed")
