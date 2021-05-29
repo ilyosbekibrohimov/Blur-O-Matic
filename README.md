@@ -1,5 +1,5 @@
-Android Jetpack Workmanager:<br/>
-Workmanager is an API that is used to schdeule deferrable and asynchronous tasks that are expectec to run even if app exits  or the  device restarts.Workmanager is considered a good replacement for Android  background  scheduling APIs such as  FirebaseJobDispatcher or Job Scheduler.<br/>
+#**Android Jetpack Workmanager**:<br/>
+Workmanager is an API that is used to schedule deferrable and asynchronous tasks that are expectec to run even if app exits  or the  device restarts.Workmanager is considered a good replacement for Android  background  scheduling APIs such as  FirebaseJobDispatcher or Job Scheduler.<br/>
 This is the high level  overview what workmanager does under the hood:<br/>
 ![image](https://user-images.githubusercontent.com/46449085/120057629-6d2d5880-c07f-11eb-985a-2a857cae05e7.png)
 
